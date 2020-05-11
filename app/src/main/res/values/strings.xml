@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Donasi Kuy</string>
+
+    <string-array name="jenkel">
+        <item>Jenis Kelamin</item>
+        <item>Laki-laki</item>
+        <item>Perempuan</item>
+    </string-array>
+</resources>
