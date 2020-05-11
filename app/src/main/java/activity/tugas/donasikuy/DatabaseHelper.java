@@ -89,6 +89,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //check status
+    public boolean checkStatus(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT status FROM user WHERE username = ? ", new String[]{username});
+        cursor.moveToFirst();
+        String status = cursor.getString(0);
+        if(status.equals("user")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     //isidata donasi admin
     public boolean insertData(String judul, String penerima, String alasan, String alamat, String nomortelp, String jumlah, String waktu, String foto)
     {
