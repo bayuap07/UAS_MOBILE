@@ -10,17 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".User_HomeActivity"></activity>
-        <activity android:name=".TambahDonasiAdmin" />
-        <activity android:name=".Admin_HomeActivity" />
-        <activity
-            android:name=".RegisterActivity"
-            android:label="Registrasi Akun"
-            android:parentActivityName=".LoginActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity" />
-        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -29,6 +19,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Registrasi Akun"
+            android:parentActivityName=".LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
+        </activity>
+
+        <activity android:name=".Admin_HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".TambahDonasiAdmin"
+            android:label="Buat Donasi Baru"
+            android:parentActivityName=".Admin_HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Admin_HomeActivity" />
+        </activity>
+
+        <activity android:name=".User_HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
     </application>
 
 </manifest>
