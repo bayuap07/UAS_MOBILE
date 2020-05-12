@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -61,17 +62,29 @@ public class LoginActivity extends AppCompatActivity {
                 String strUsername = username.getText().toString();
                 String strPassword = password.getText().toString();
                 Boolean masuk = db.checkLogin(strUsername, strPassword);
-                if(masuk == true){
+                if(TextUtils.isEmpty(strUsername))
+                {
+                    username.setError("Username Tidak Boleh Kosong");
+                }
+                else if(TextUtils.isEmpty(strPassword))
+                {
+                    password.setError("Password Tidak Boleh Kosong");
+                }
+                else if(masuk == true){
                     Boolean updateSession = db.upgradeSession("ada", 1);
                     if(updateSession == true){
-                        Toast.makeText(getApplicationContext(), "Berhasil Masuk", Toast.LENGTH_SHORT).show();
-                        Intent mainIntent = new Intent(LoginActivity.this, Admin_HomeActivity.class);
-                        startActivity(mainIntent);
-                        finish();
+                        Boolean status = db.checkStatus(strUsername);
+                         if(status == false) {
+                             startActivity(new Intent(LoginActivity.this, Admin_HomeActivity.class));
+                        }else{
+                            Intent mainIntent = new Intent(LoginActivity.this, User_HomeActivity.class);
+                            startActivity(mainIntent);
+                            finish();
+                        }
                     }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Masuk Gagal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Username atau Kata Sandi yang anda masukan salah", Toast.LENGTH_SHORT).show();
                 }
             }
         });

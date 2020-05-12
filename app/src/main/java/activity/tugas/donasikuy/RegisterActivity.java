@@ -44,8 +44,9 @@ public class RegisterActivity extends AppCompatActivity{
                 String strNoHP = no_hp.getText().toString();
                 String strNPM = npm.getText().toString();
                 String strAlamat = alamat.getText().toString();
-
-
+                Boolean cekUsername = db.CekUsername(strUsername);
+                Boolean cekEmail = db.CekEmail(strEmail);
+                Boolean cekHP = db.CekNoHP(strNoHP);
 
                 if(TextUtils.isEmpty(strNama))
                 {
@@ -59,13 +60,25 @@ public class RegisterActivity extends AppCompatActivity{
                 {
                     username.setError("Username Tidak Boleh Kosong");
                 }
+                else if(cekUsername == true)
+                {
+                    Toast.makeText(getApplicationContext(), "Username sudah terdaftar", Toast.LENGTH_SHORT).show();
+                }
                 else if(TextUtils.isEmpty(strEmail))
                 {
                     email.setError("Email Tidak Boleh Kosong");
                 }
+                else if(cekEmail == true)
+                {
+                    Toast.makeText(getApplicationContext(), "Email sudah terdaftar", Toast.LENGTH_SHORT).show();
+                }
                 else if(TextUtils.isEmpty(strNoHP))
                 {
                     no_hp.setError("No. Telepon Tidak Boleh Kosong");
+                }
+                else if(cekHP == true)
+                {
+                    Toast.makeText(getApplicationContext(), "No. Telepon sudah terdaftar", Toast.LENGTH_SHORT).show();
                 }
                 else if(TextUtils.isEmpty(strAlamat))
                 {
@@ -85,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity{
                         finish();
                     }
                     else{
-                        Toast.makeText(getApplicationContext(),"Registrasi Akun Akun Gagal", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Registrasi Akun Gagal", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {

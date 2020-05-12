@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE session(id_session integer PRIMARY KEY, login text)");
         db.execSQL("CREATE TABLE user(id_user integer PRIMARY KEY AUTOINCREMENT, nama text, npm text, username text, email text, no_hp text,alamat text,  password text,status text, saldo text)");
-        db.execSQL("INSERT INTO user(id,nama, npm, username, email, no_hp, alamat, password, status, saldo ) VALUES(1,'Admin','1','admin.com', 'admin@admin.com', '082242484585','Karawang','12345','admin','0')");
+        db.execSQL("INSERT INTO user(id_user,nama, npm, username, email, no_hp, alamat, password, status, saldo ) VALUES(1,'Admin','1','admin.com', 'admin@admin.com', '082242484585','Karawang','12345','admin','0')");
         db.execSQL("CREATE TABLE donasi(id_donasi integer PRIMARY KEY AUTOINCREMENT, judul text, penerima text, alasan text, alamat text, nomortelp text, jumlah text, waktu text, foto text)");
         db.execSQL("INSERT INTO session(id_session,login) VALUES(1,'kosong')");
     }
@@ -43,11 +43,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //upgrade session
-    public Boolean upgradeSession(String sessionValues, int id){
+    public Boolean upgradeSession(String sessionValues, int id_user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("login", sessionValues);
-        long update = db.update("session",contentValues,"id="+id, null);
+        long update = db.update("session",contentValues,"login=="+id_user, null);
         if (update == -1){
             return false;
         }
@@ -99,6 +99,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }else{
             return false;
+        }
+    }
+
+    //check username
+    public boolean CekUsername(String data){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM user WHERE username = ? ", new String[]{data});
+        if(cursor.getCount() == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //check email
+    public boolean CekEmail(String data){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM user WHERE email = ? ", new String[]{data});
+        if(cursor.getCount() == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    //check no_hp
+    public boolean CekNoHP(String data){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM user WHERE no_hp = ? ", new String[]{data});
+        if(cursor.getCount() == 0){
+            return false;
+        }else{
+            return true;
         }
     }
 
