@@ -1,13 +1,14 @@
 package activity.tugas.donasikuy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class TambahDonasiAdmin extends AppCompatActivity {
     DatabaseHelper db;
@@ -29,28 +30,49 @@ public class TambahDonasiAdmin extends AppCompatActivity {
         jumlah = (EditText) findViewById(R.id.JumlahTargetTD);
         foto = (EditText) findViewById(R.id.FotoTD);
         btnsimpan = (Button) findViewById(R.id.btn_simpanTD);
-    }
 
-    //simpan
-//        public void setBtnsimpan(){
-//            btnsimpan.setOnClickListener(
-//                    new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            boolean isInserted = db.insertData(judul.getText().toString(), penerima.getText().toString(),
-//                                    alasan.getText().toString(), alamat.getText().toString(), nomortelp.getText().toString(),
-//                                    jumlah.getText().toString(), waktu.getText().toString(), foto.getText().toString());
-//                            if (isInserted == true) {
-//                                Toast.makeText(TambahDonasiAdmin.this, "Data terisi", Toast.LENGTH_LONG).show();
-//                                Intent simpanIntent = new Intent(TambahDonasiAdmin.this, AdminHomeActivity.class);
-//                                startActivity(simpanIntent);
-//                                finish();
-//                            } else {
-//                                Toast.makeText(TambahDonasiAdmin.this, "Data tidak terisi", Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//                    }
-//            );
-//
-//    }
+        btnsimpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strJudul = judul.getText().toString();
+                String strPenerima = penerima.getText().toString();
+                String strAlasan = alasan.getText().toString();
+                String strAlamat = alamat.getText().toString();
+                String strNomortelp = nomortelp.getText().toString();
+                String strWaktu = waktu.getText().toString();
+                String strJumlah = jumlah.getText().toString();
+                String strFoto = foto.getText().toString();
+
+                if (TextUtils.isEmpty(strJudul)) {
+                    judul.setError("Judul Tidak Boleh Kosong");
+                } else if (TextUtils.isEmpty(strPenerima)) {
+                    penerima.setError("Wajib Melampirkan Nama Penerima");
+                } else if (TextUtils.isEmpty(strAlasan)) {
+                    alasan.setError("Alasan Tidak Boleh Kosong");
+                } else if (TextUtils.isEmpty(strNomortelp)) {
+                    nomortelp.setError("No Telepon Tidak Boleh Kosong");
+                } else if (TextUtils.isEmpty(strWaktu)) {
+                    waktu.setError("Tidak Boleh Kosong");
+                } else if (TextUtils.isEmpty(strJumlah)) {
+                    jumlah.setError("Tidak Boleh Kosong");
+                } else if (TextUtils.isEmpty(strFoto)) {
+                    foto.setError("Lampirkan foto");
+                } else if (btnsimpan.isPressed()) {
+                    Boolean simpandata = db.insertData(strJudul, strPenerima, strAlasan, strAlamat, strNomortelp, strWaktu, strJumlah, strFoto);
+                    if (simpandata == true) {
+                        Toast.makeText(getApplicationContext(), "Data Berhasil dibuat", Toast.LENGTH_SHORT).show();
+                        Intent simpanIntent = new Intent(TambahDonasiAdmin.this, Admin_HomeActivity.class);
+                        startActivity(simpanIntent);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Data donasi gagal ditambahkan", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "salah", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+        });
+    }
 }
